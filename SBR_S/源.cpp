@@ -16,8 +16,8 @@ int main()
 	system("md LOG");
 
 	float alpha=0;
-	float theta_low,theta_high;
-	float phi_low,phi_high;
+	float theta_min,theta_max;
+	float phi_min,phi_max;
 	float theta, phi;
 	float nstep;
 	float frequency, lambda;
@@ -25,17 +25,17 @@ int main()
 	std::cout << "frequency: ";
 	std::cin >> frequency;
 	std::cout << std::endl;
-	std::cout << "theta_low: ";
-	std::cin >> theta_low;
+	std::cout << "theta_min: ";
+	std::cin >> theta_min;
 	std::cout << std::endl;
-	std::cout << "theta_high: ";
-	std::cin >> theta_high;
+	std::cout << "theta_max: ";
+	std::cin >> theta_max;
 	std::cout << std::endl;
-	std::cout << "phi_low: ";
-	std::cin >> phi_low;
+	std::cout << "phi_min: ";
+	std::cin >> phi_min;
 	std::cout << std::endl;
-	std::cout << "phi_high: ";
-	std::cin >> phi_high;
+	std::cout << "phi_max: ";
+	std::cin >> phi_max;
 	std::cout << std::endl;
 	std::cout << "nstep: ";
 	std::cin >> nstep;
@@ -44,7 +44,7 @@ int main()
 
 	//打开模型文件
 	ReadSTLFile input;
-	input.ReadFile("sanmianjiao.STL");
+	input.ReadFile("qiuti.STL");
 
 	//创建结果文件
 	std::ofstream out_res;
@@ -53,15 +53,15 @@ int main()
 	out_res.close();
 
 	//射线追踪及计算
-	for(float theta_j=theta_low;theta_j<=theta_high;theta_j+=nstep)
-		for (float phi_j = phi_low; phi_j <= phi_high; phi_j += nstep)
+	for(float theta_j=theta_min;theta_j<=theta_max;theta_j+=nstep)
+		for (float phi_j = phi_min; phi_j <= phi_max; phi_j += nstep)
 		{
 			theta = theta_j*PI / 180.0;
 			phi = phi_j*PI / 180.0;
 			RayInit ray_init;
 			ray_init.init(&input, 5.0, alpha, theta, phi, lambda);
 			RayTracing rt;
-			rt.tracing(&input, &ray_init, 3, lambda, theta, phi);			
+			rt.tracing(&input, &ray_init, 10, lambda, theta, phi);			
 		}
 	
 	return 0;
